@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Fleet Management API 🚖
 
 **Rest API** for a taxi fleet management system in Beijing, China 🇨🇳. Query the locations of nearly **2 thousand taxis** in real-time and ensure an optimal user experience.
@@ -70,4 +68,5 @@ https://github.com/kimmvb/fleet-management-api/assets/137528066/8e07f66d-53f3-46
 
 
     > There were e2e tests and unit tests. 
+
 
