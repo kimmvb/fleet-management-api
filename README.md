@@ -69,4 +69,3 @@ https://github.com/kimmvb/fleet-management-api/assets/137528066/8e07f66d-53f3-46
 
     > There were e2e tests and unit tests. 
 
-
