@@ -13,6 +13,7 @@ public class Taxi {
     private String plate;
 
     public Taxi() {
+
     }
 
     public Taxi(Integer id, String plate) {
