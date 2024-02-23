@@ -1,5 +1,6 @@
 package com.fleetmanagement.fleetmanagementapi.models;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -7,9 +8,19 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="taxis")
 public class Taxi {
+    @Schema(
+            description = "Taxi unique ID",
+            name = "ID",
+            type = "Integer",
+            example = "1234")
     @Id
     private Integer id;
 
+    @Schema(
+            description = "Taxi unique plate",
+            name = "plate",
+            type = "String",
+            example = "VFTR4")
     private String plate;
 
     public Taxi() {

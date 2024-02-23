@@ -2,14 +2,18 @@ package com.fleetmanagement.fleetmanagementapi.controllers;
 
 import com.fleetmanagement.fleetmanagementapi.models.Taxi;
 import com.fleetmanagement.fleetmanagementapi.services.TaxiService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
+@Tag(name = "taxi", description = "Endpoints to query taxis")
 @RequestMapping(path = "api/v1/taxi")
 public class TaxiController {
 
@@ -21,7 +25,13 @@ public class TaxiController {
     }
 
     @GetMapping
-    public List<Taxi> getTaxis() {
-        return taxiService.getTaxis();
+    public Page<Taxi> getTaxis(@Parameter(name = "pageable", description = "Pages description", example = "\n{" +
+            "  \"page\": 0,\n" +
+            "  \"size\": 10,\n" +
+            "  \"sort\": [\n" +
+            "    \"id,asc\"\n" +
+            "  ]\n" +
+            "}") @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        return taxiService.getTaxis(pageable);
     }
 }

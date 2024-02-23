@@ -3,9 +3,11 @@ package com.fleetmanagement.fleetmanagementapi.services;
 import com.fleetmanagement.fleetmanagementapi.models.Taxi;
 import com.fleetmanagement.fleetmanagementapi.repositories.TaxiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TaxiService {
@@ -17,7 +19,8 @@ public class TaxiService {
         this.taxiRepository = taxiRepository;
     }
 
-    public List<Taxi> getTaxis() {
-        return taxiRepository.findAll();
+    public Page<Taxi> getTaxis(@PageableDefault(page = 0, size = 10, sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
+        return taxiRepository.findAll(pageable);
     }
+
 }
