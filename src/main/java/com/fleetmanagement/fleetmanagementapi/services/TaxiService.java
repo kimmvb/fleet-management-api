@@ -19,7 +19,8 @@ public class TaxiService {
         this.taxiRepository = taxiRepository;
     }
 
-    public Page<Taxi> getTaxis(@PageableDefault(page = 0, size = 10, sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
+    public Page<Taxi> getTaxis(@PageableDefault(page = 0, size = 10, sort = {"id"},
+            direction = Sort.Direction.ASC) Pageable pageable) {
         return taxiRepository.findAll(pageable);
     }
 

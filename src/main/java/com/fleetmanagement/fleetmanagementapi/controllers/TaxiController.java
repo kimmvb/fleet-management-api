@@ -25,13 +25,11 @@ public class TaxiController {
     }
 
     @GetMapping
-    public Page<Taxi> getTaxis(@Parameter(name = "pageable", description = "Pages description", example = "\n{" +
-            "  \"page\": 0,\n" +
-            "  \"size\": 10,\n" +
-            "  \"sort\": [\n" +
-            "    \"id,asc\"\n" +
-            "  ]\n" +
-            "}") @PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public Page<Taxi> getTaxis(@Parameter(name = "pageable", description = "Pages description",
+            example = "{\"page\": 0, \"size\": 10, \"sort\": [\"id,asc\"]}")
+                               @PageableDefault(page = 0, size = 10) Pageable pageable) {
         return taxiService.getTaxis(pageable);
     }
 }
+
+//Error más del total de páginas
