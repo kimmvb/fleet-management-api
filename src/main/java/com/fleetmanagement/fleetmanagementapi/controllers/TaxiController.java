@@ -31,5 +31,7 @@ public class TaxiController {
         return taxiService.getTaxis(pageable);
     }
 }
+//Yo como clienta de la API REST requiero un endpoint para consultar todas las ubicaciones...
+// de un taxi dado el id y una fecha.
 
 //Error más del total de páginas
