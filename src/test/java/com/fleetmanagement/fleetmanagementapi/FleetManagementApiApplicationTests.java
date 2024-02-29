@@ -33,5 +33,31 @@ class FleetManagementApiApplicationTests {
 		mockMvc.perform(get("/api/v1/taxi?page=0&size=5")).andExpect(status().isOk())
 				.andExpect(jsonPath("$.content", hasSize(5)));
 	}
+
+	@Test
+	@DisplayName("should return an array with trajectories from a specific taxi")
+	void trajectoriesWithIdSuccess() throws Exception {
+		mockMvc.perform(get("/api/v1/trajectory/6418?page=0&size=5")).andExpect(status().isOk())
+				.andExpect(jsonPath("$.content", hasSize(5)));
+	}
+
+	@Test
+	@DisplayName("should return an error when taxiId is not found")
+	void trajectoriesWithIdFail() throws Exception {
+		mockMvc.perform(get("/api/v1/trajectory/641?page=0&size=5")).andExpect(status().is4xxClientError());
+	}
+
+	@Test
+	@DisplayName("should return an array with trajectories from a specific taxi and date")
+	void trajectoriesWithIdAndDateSuccess() throws Exception {
+		mockMvc.perform(get("/api/v1/trajectory/6418/02-02-2008?page=0&size=5")).andExpect(status().isOk())
+				.andExpect(jsonPath("$.content", hasSize(5)));
+	}
+
+	@Test
+	@DisplayName("should return an error when trajectories are not found")
+	void trajectoriesWithIdAndDateFail() throws Exception {
+		mockMvc.perform(get("/api/v1/trajectory/6418/02-02-2080?page=0&size=5"))
+				.andExpect(status().is4xxClientError());
+	}
 }
-///api/v1/taxi?page=0&size=10

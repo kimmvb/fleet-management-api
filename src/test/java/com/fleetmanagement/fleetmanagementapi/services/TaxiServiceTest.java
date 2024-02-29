@@ -4,6 +4,7 @@ import com.fleetmanagement.fleetmanagementapi.models.Taxi;
 import com.fleetmanagement.fleetmanagementapi.repositories.TaxiRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ class TaxiServiceTest {
     void tearDown() {
     }
 
+    @DisplayName("should return a taxi list")
     @Test
     void shouldReturnMockTaxiList() {
 
