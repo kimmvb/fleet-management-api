@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -91,6 +92,52 @@ class TrajectoryServiceTest {
         Page<Trajectory> result = trajectoryService.getTrajectoriesByIdAndDate(trajectory.getTaxi_id(),
                 trajectory.getDate().toString(),
                 PageRequest.of(0, 10));
+
+        assertEquals(trajectoryPage, result);
+    }
+
+    @DisplayName("should return the last location of a taxi")
+    @Test
+    void getLastLocation() {
+        //Mock de clase TaxiRepository
+        TrajectoryRepository trajectoryRepositoryMock = Mockito.mock(TrajectoryRepository.class);
+
+        // Datos de ejemplo, creación de elemento Taxi
+        Trajectory trajectory1 = new Trajectory();
+        trajectory1.setId(1);
+        String timestampString1 = "2021-04-23 12:34:56.789";
+        Timestamp timestamp1 = Timestamp.valueOf(timestampString1);
+        trajectory1.setDate(timestamp1);
+        trajectory1.setTaxi_id(6418);
+        trajectory1.setLatitude(1542646);
+        trajectory1.setLongitude(145262565);
+
+        Trajectory trajectory2 = new Trajectory();
+        trajectory2.setId(2);
+        String timestampString2 = "2022-04-23 12:34:56.789";
+        Timestamp timestamp2 = Timestamp.valueOf(timestampString2);
+        trajectory2.setDate(timestamp2);
+        trajectory2.setTaxi_id(6418);
+        trajectory2.setLatitude(1542646);
+        trajectory2.setLongitude(145262565);
+        // Se crea una lista de elementos de tipo Taxi
+        List<Trajectory> trajectoryList = Arrays.asList(trajectory1,trajectory2);
+
+        System.out.print(trajectoryList);
+        // Se crea una página con la lista de taxis
+        Page<Trajectory> trajectoryPage = new PageImpl<>(trajectoryList);
+
+        System.out.print(trajectoryPage.getContent());
+
+        // Se hace un mock de lo que retornará taxiRepository
+        Mockito.when(trajectoryRepositoryMock.findByTaxiIdLastLocation(Mockito.anyInt(),
+                Mockito.eq(PageRequest.of(0, 1)))).thenReturn(trajectoryPage);
+
+        // Nueva instancia de la clase por probar
+        TrajectoryService trajectoryService = new TrajectoryService(trajectoryRepositoryMock);
+
+        // Se llama al resultado de getTaxis
+        Page<Trajectory> result = trajectoryService.getTaxiLastLocation(6418);
 
         assertEquals(trajectoryPage, result);
     }

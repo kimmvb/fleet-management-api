@@ -4,10 +4,13 @@ import com.fleetmanagement.fleetmanagementapi.models.Trajectory;
 import com.fleetmanagement.fleetmanagementapi.repositories.TrajectoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.sql.Timestamp;
 
 @Service
 public class TrajectoryService {
@@ -35,6 +38,17 @@ public class TrajectoryService {
         if(trajectoriesResults.isEmpty()){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Trajectories not found from: " + taxi_id);
+        }
+        return trajectoriesResults;
+    }
+
+    public Page<Trajectory> getTaxiLastLocation(Integer taxi_id) {
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<Trajectory> trajectoriesResults = trajectoryRepository.findByTaxiIdLastLocation(taxi_id, pageable);
+
+        if(trajectoriesResults.isEmpty()){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Last location not found from: " + taxi_id);
         }
         return trajectoriesResults;
     }

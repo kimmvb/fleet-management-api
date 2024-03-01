@@ -2,6 +2,7 @@ package com.fleetmanagement.fleetmanagementapi.controllers;
 
 import com.fleetmanagement.fleetmanagementapi.models.Taxi;
 import com.fleetmanagement.fleetmanagementapi.services.TaxiService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class TaxiController {
         this.taxiService = taxiService;
     }
 
+    @Operation(summary = "Retrieve a list of registered taxis")
     @GetMapping
     public Page<Taxi> getTaxis(@Parameter(name = "pageable", description = "Pages description",
             example = "{\"page\": 0, \"size\": 10, \"sort\": [\"id,asc\"]}")
