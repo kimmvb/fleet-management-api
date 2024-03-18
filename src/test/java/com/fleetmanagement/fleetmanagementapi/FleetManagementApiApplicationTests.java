@@ -62,16 +62,10 @@ class FleetManagementApiApplicationTests {
 	}
 
 	@Test
-	@DisplayName("should return the last location of a specific taxi")
-	void lastLocationSuccess() throws Exception {
-		mockMvc.perform(get("/api/v1/trajectory/6418/last_location")).andExpect(status().isOk())
-				.andExpect(jsonPath("$.content", hasSize(1)));
+	@DisplayName("should return the all last locations")
+	void lastLocationsSuccess() throws Exception {
+		mockMvc.perform(get("/api/v1/trajectory/last_locations")).andExpect(status().isOk())
+				.andExpect(jsonPath("$.content", hasSize(10)));
 	}
 
-	@Test
-	@DisplayName("should return an error when last location is not found")
-	void lastLocationFail() throws Exception {
-		mockMvc.perform(get("/api/v1/trajectory/641/last_location"))
-				.andExpect(status().is4xxClientError());
-	}
 }

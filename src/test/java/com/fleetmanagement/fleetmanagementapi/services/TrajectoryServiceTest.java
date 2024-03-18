@@ -1,5 +1,6 @@
 package com.fleetmanagement.fleetmanagementapi.services;
 
+import com.fleetmanagement.fleetmanagementapi.models.Taxi;
 import com.fleetmanagement.fleetmanagementapi.models.Trajectory;
 import com.fleetmanagement.fleetmanagementapi.repositories.TrajectoryRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -35,12 +36,15 @@ class TrajectoryServiceTest {
         //Mock de clase TaxiRepository
         TrajectoryRepository trajectoryRepositoryMock = Mockito.mock(TrajectoryRepository.class);
 
+        Taxi taxi = new Taxi();
+        taxi.setId(6418);
+        taxi.setPlate("4164DS");
         // Datos de ejemplo, creación de elemento Taxi
         Trajectory trajectory = new Trajectory();
         trajectory.setId(1);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         trajectory.setDate(timestamp);
-        trajectory.setTaxi_id(6418);
+        trajectory.setTaxi(taxi);
         trajectory.setLatitude(1542646);
         trajectory.setLongitude(145262565);
         // Se crea una lista de elementos de tipo Taxi
@@ -56,7 +60,7 @@ class TrajectoryServiceTest {
         TrajectoryService trajectoryService = new TrajectoryService(trajectoryRepositoryMock);
 
         // Se llama al resultado de getTaxis
-        Page<Trajectory> result = trajectoryService.getTrajectoriesById(trajectory.getTaxi_id(),
+        Page<Trajectory> result = trajectoryService.getTrajectoriesById(trajectory.getTaxi().getId(),
                 PageRequest.of(0, 10));
 
         assertEquals(trajectoryPage, result);
@@ -68,12 +72,15 @@ class TrajectoryServiceTest {
         //Mock de clase TaxiRepository
         TrajectoryRepository trajectoryRepositoryMock = Mockito.mock(TrajectoryRepository.class);
 
+        Taxi taxi = new Taxi();
+        taxi.setId(6418);
+        taxi.setPlate("4164DS");
         // Datos de ejemplo, creación de elemento Taxi
         Trajectory trajectory = new Trajectory();
         trajectory.setId(1);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         trajectory.setDate(timestamp);
-        trajectory.setTaxi_id(6418);
+        trajectory.setTaxi(taxi);
         trajectory.setLatitude(1542646);
         trajectory.setLongitude(145262565);
         // Se crea una lista de elementos de tipo Taxi
@@ -89,26 +96,29 @@ class TrajectoryServiceTest {
         TrajectoryService trajectoryService = new TrajectoryService(trajectoryRepositoryMock);
 
         // Se llama al resultado de getTaxis
-        Page<Trajectory> result = trajectoryService.getTrajectoriesByIdAndDate(trajectory.getTaxi_id(),
+        Page<Trajectory> result = trajectoryService.getTrajectoriesByIdAndDate(trajectory.getTaxi().getId(),
                 trajectory.getDate().toString(),
                 PageRequest.of(0, 10));
 
         assertEquals(trajectoryPage, result);
     }
 
-    @DisplayName("should return the last location of a taxi")
+    @DisplayName("should return the last locations of all taxis")
     @Test
     void getLastLocation() {
         //Mock de clase TaxiRepository
         TrajectoryRepository trajectoryRepositoryMock = Mockito.mock(TrajectoryRepository.class);
 
+        Taxi taxi = new Taxi();
+        taxi.setId(6418);
+        taxi.setPlate("4164DS");
         // Datos de ejemplo, creación de elemento Taxi
         Trajectory trajectory1 = new Trajectory();
         trajectory1.setId(1);
         String timestampString1 = "2021-04-23 12:34:56.789";
         Timestamp timestamp1 = Timestamp.valueOf(timestampString1);
         trajectory1.setDate(timestamp1);
-        trajectory1.setTaxi_id(6418);
+        trajectory1.setTaxi(taxi);
         trajectory1.setLatitude(1542646);
         trajectory1.setLongitude(145262565);
 
@@ -117,7 +127,7 @@ class TrajectoryServiceTest {
         String timestampString2 = "2022-04-23 12:34:56.789";
         Timestamp timestamp2 = Timestamp.valueOf(timestampString2);
         trajectory2.setDate(timestamp2);
-        trajectory2.setTaxi_id(6418);
+        trajectory2.setTaxi(taxi);
         trajectory2.setLatitude(1542646);
         trajectory2.setLongitude(145262565);
         // Se crea una lista de elementos de tipo Taxi
@@ -130,14 +140,14 @@ class TrajectoryServiceTest {
         System.out.print(trajectoryPage.getContent());
 
         // Se hace un mock de lo que retornará taxiRepository
-        Mockito.when(trajectoryRepositoryMock.findByTaxiIdLastLocation(Mockito.anyInt(),
-                Mockito.eq(PageRequest.of(0, 1)))).thenReturn(trajectoryPage);
+        Mockito.when(trajectoryRepositoryMock.findLatestTrajectoriesOfAllTaxis(Mockito.any(Pageable.class)))
+                .thenReturn(trajectoryPage);
 
         // Nueva instancia de la clase por probar
         TrajectoryService trajectoryService = new TrajectoryService(trajectoryRepositoryMock);
 
         // Se llama al resultado de getTaxis
-        Page<Trajectory> result = trajectoryService.getTaxiLastLocation(6418);
+        Page<Trajectory> result = trajectoryService.getTaxisLastLocation(PageRequest.of(0, 10));
 
         assertEquals(trajectoryPage, result);
     }

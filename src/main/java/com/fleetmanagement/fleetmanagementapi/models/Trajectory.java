@@ -1,9 +1,7 @@
 package com.fleetmanagement.fleetmanagementapi.models;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 
@@ -16,6 +14,7 @@ public class Trajectory {
             type = "Integer",
             example = "1")
     @Id
+    @Column(name = "id")
     private Integer id;
 
     @Schema(
@@ -23,13 +22,16 @@ public class Trajectory {
             name = "taxi_id",
             type = "Integer",
             example = "6418")
-    private Integer taxi_id;
+    @ManyToOne
+    @JoinColumn(name = "taxi_id")
+    private Taxi taxi;
 
     @Schema(
             description = "Trajectory's date",
             name = "date",
             type = "Timestamp",
             example = "2008-02-02 14:22:40+00")
+    @Column(name = "date")
     private Timestamp date;
 
     @Schema(
@@ -37,6 +39,7 @@ public class Trajectory {
             name = "latitude",
             type = "double",
             example = "116.30508")
+    @Column(name = "latitude")
     private double latitude;
 
     @Schema(
@@ -44,19 +47,22 @@ public class Trajectory {
             name = "longitude",
             type = "double",
             example = "39.96525")
+    @Column(name = "longitude")
     private double longitude;
 
     public Trajectory() {
     }
 
-    public Trajectory(Integer id, Integer taxi_id, Timestamp date, double latitude, double longitude) {
+    @SuppressWarnings("unused")
+    public Trajectory(Integer id, Taxi taxi, Timestamp date, double latitude, double longitude) {
         this.id = id;
-        this.taxi_id = taxi_id;
+        this.taxi = taxi;
         this.date = date;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
+    @SuppressWarnings("unused")
     public Integer getId() {
         return id;
     }
@@ -65,12 +71,12 @@ public class Trajectory {
         this.id = id;
     }
 
-    public Integer getTaxi_id() {
-        return taxi_id;
+    public Taxi getTaxi() {
+        return taxi;
     }
 
-    public void setTaxi_id(Integer taxi_id) {
-        this.taxi_id = taxi_id;
+    public void setTaxi(Taxi taxi) {
+        this.taxi = taxi;
     }
 
     public Timestamp getDate() {
@@ -81,6 +87,7 @@ public class Trajectory {
         this.date = date;
     }
 
+    @SuppressWarnings("unused")
     public double getLatitude() {
         return latitude;
     }
@@ -89,6 +96,7 @@ public class Trajectory {
         this.latitude = latitude;
     }
 
+    @SuppressWarnings("unused")
     public double getLongitude() {
         return longitude;
     }
@@ -101,7 +109,7 @@ public class Trajectory {
     public String toString() {
         return "Trajectory{" +
                 "id=" + id +
-                ", taxi_id=" + taxi_id +
+                ", taxi=" + taxi +
                 ", date=" + date +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +

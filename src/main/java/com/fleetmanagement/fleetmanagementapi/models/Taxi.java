@@ -27,11 +27,13 @@ public class Taxi {
 
     }
 
+    @SuppressWarnings("unused")
     public Taxi(Integer id, String plate) {
         this.id = id;
         this.plate = plate;
     }
 
+    @SuppressWarnings("unused")
     public Integer getId() {
         return id;
     }
@@ -40,6 +42,7 @@ public class Taxi {
         this.id = id;
     }
 
+    @SuppressWarnings("unused")
     public String getPlate() {
         return plate;
     }

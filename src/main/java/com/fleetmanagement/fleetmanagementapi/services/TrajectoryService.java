@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.sql.Timestamp;
-
 @Service
 public class TrajectoryService {
 
@@ -22,10 +20,10 @@ public class TrajectoryService {
         this.trajectoryRepository = trajectoryRepository;
     }
 
-    public Page<Trajectory> getTrajectoriesById(Integer taxi_id, Pageable pageable){
+    public Page<Trajectory> getTrajectoriesById(Integer taxi_id, Pageable pageable) {
         Page<Trajectory> trajectoriesResults = trajectoryRepository.findByTaxiId(taxi_id, pageable);
 
-        if(trajectoriesResults.isEmpty()){
+        if (trajectoriesResults.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Taxi ID not found: " + taxi_id);
         }
@@ -35,21 +33,30 @@ public class TrajectoryService {
     public Page<Trajectory> getTrajectoriesByIdAndDate(Integer taxi_id, String date, Pageable pageable) {
         Page<Trajectory> trajectoriesResults = trajectoryRepository.findByTaxiIdAndDate(taxi_id, date, pageable);
 
-        if(trajectoriesResults.isEmpty()){
+        if (trajectoriesResults.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Trajectories not found from: " + taxi_id);
         }
         return trajectoriesResults;
     }
 
-    public Page<Trajectory> getTaxiLastLocation(Integer taxi_id) {
-        Pageable pageable = PageRequest.of(0, 1);
-        Page<Trajectory> trajectoriesResults = trajectoryRepository.findByTaxiIdLastLocation(taxi_id, pageable);
+    public Page<Trajectory> getTaxisLastLocation(Pageable pageable) {
+        Page<Trajectory> trajectoriesResults = trajectoryRepository.findLatestTrajectoriesOfAllTaxis(pageable);
 
-        if(trajectoriesResults.isEmpty()){
+        if (trajectoriesResults.isEmpty()) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Last location not found from: " + taxi_id);
+                    HttpStatus.NOT_FOUND, "Last locations not found");
         }
         return trajectoriesResults;
     }
+
+//    public Page<Trajectory> getTrajectoriesByIdAndDateAndSend(Integer taxi_id, String date, Pageable pageable) {
+//        Page<Trajectory> trajectoriesResults = trajectoryRepository.findByTaxiIdAndDate(taxi_id, date, pageable);
+//
+//        if (trajectoriesResults.isEmpty()) {
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, "Trajectories not found from: " + taxi_id);
+//        }
+//        return trajectoriesResults;
+//    }
 }
