@@ -50,7 +50,7 @@ class TaxiServiceTest {
         TaxiService taxiService = new TaxiService(taxiRepositoryMock);
 
         // Se llama al resultado de getTaxis
-        Page<Taxi> result = taxiService.getTaxis(PageRequest.of(0, 10));
+        Page<Taxi> result = taxiService.getTaxis(0, 10);
 
         System.out.print(result);
 

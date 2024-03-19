@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 public class TrajectoryService {
 
@@ -20,8 +22,10 @@ public class TrajectoryService {
         this.trajectoryRepository = trajectoryRepository;
     }
 
-    public Page<Trajectory> getTrajectoriesById(Integer taxi_id, Pageable pageable) {
-        Page<Trajectory> trajectoriesResults = trajectoryRepository.findByTaxiId(taxi_id, pageable);
+    public Page<Trajectory> getTrajectoriesById(Integer taxi_id, int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+
+        Page<Trajectory> trajectoriesResults = trajectoryRepository.findByTaxiId(taxi_id, page);
 
         if (trajectoriesResults.isEmpty()) {
             throw new ResponseStatusException(
@@ -30,8 +34,10 @@ public class TrajectoryService {
         return trajectoriesResults;
     }
 
-    public Page<Trajectory> getTrajectoriesByIdAndDate(Integer taxi_id, String date, Pageable pageable) {
-        Page<Trajectory> trajectoriesResults = trajectoryRepository.findByTaxiIdAndDate(taxi_id, date, pageable);
+    public Page<Trajectory> getTrajectoriesByIdAndDate(Integer taxi_id, String date, int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+
+        Page<Trajectory> trajectoriesResults = trajectoryRepository.findByTaxiIdAndDate(taxi_id, date, page);
 
         if (trajectoriesResults.isEmpty()) {
             throw new ResponseStatusException(
@@ -40,8 +46,10 @@ public class TrajectoryService {
         return trajectoriesResults;
     }
 
-    public Page<Trajectory> getTaxisLastLocation(Pageable pageable) {
-        Page<Trajectory> trajectoriesResults = trajectoryRepository.findLatestTrajectoriesOfAllTaxis(pageable);
+    public Page<Trajectory> getTaxisLastLocation( int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+
+        Page<Trajectory> trajectoriesResults = trajectoryRepository.findLatestTrajectoriesOfAllTaxis(page);
 
         if (trajectoriesResults.isEmpty()) {
             throw new ResponseStatusException(

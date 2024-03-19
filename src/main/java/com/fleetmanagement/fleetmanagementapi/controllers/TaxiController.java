@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +26,10 @@ public class TaxiController {
 
     @Operation(summary = "Retrieve a list of registered taxis")
     @GetMapping
-    public Page<Taxi> getTaxis(@Parameter(name = "pageable", description = "Pages description",
-            example = "{\"page\": 0, \"size\": 10, \"sort\": [\"id,asc\"]}")
-                               Pageable pageable) {
-        return taxiService.getTaxis(pageable);
+    public Page<Taxi> getTaxis(@Parameter(name = "pageNumber", description = "Page Number", example = "0")
+                               int pageNumber,
+                               @Parameter(name = "pageSize", description = "Page Size", example = "10")
+                               int pageSize) {
+        return taxiService.getTaxis(pageNumber, pageSize);
     }
 }

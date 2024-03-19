@@ -61,7 +61,7 @@ class TrajectoryServiceTest {
 
         // Se llama al resultado de getTaxis
         Page<Trajectory> result = trajectoryService.getTrajectoriesById(trajectory.getTaxi().getId(),
-                PageRequest.of(0, 10));
+                0, 10);
 
         assertEquals(trajectoryPage, result);
     }
@@ -98,7 +98,7 @@ class TrajectoryServiceTest {
         // Se llama al resultado de getTaxis
         Page<Trajectory> result = trajectoryService.getTrajectoriesByIdAndDate(trajectory.getTaxi().getId(),
                 trajectory.getDate().toString(),
-                PageRequest.of(0, 10));
+                0, 10);
 
         assertEquals(trajectoryPage, result);
     }
@@ -147,7 +147,7 @@ class TrajectoryServiceTest {
         TrajectoryService trajectoryService = new TrajectoryService(trajectoryRepositoryMock);
 
         // Se llama al resultado de getTaxis
-        Page<Trajectory> result = trajectoryService.getTaxisLastLocation(PageRequest.of(0, 10));
+        Page<Trajectory> result = trajectoryService.getTaxisLastLocation(0, 10);
 
         assertEquals(trajectoryPage, result);
     }
