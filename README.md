@@ -64,6 +64,11 @@
 
 To ensure our project functionalities were working properly, they were conducted using **JUnit** and **Mockito**.
 
+
+https://github.com/kimmvb/fleet-management-api/assets/137528066/8e07f66d-53f3-4667-a3e0-0fcb7b8df303
+
+
     > There were e2e tests and unit tests. 
+
 
 
