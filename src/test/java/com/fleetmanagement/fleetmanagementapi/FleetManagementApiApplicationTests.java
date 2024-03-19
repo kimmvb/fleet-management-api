@@ -81,7 +81,7 @@ class FleetManagementApiApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.pageable.pageNumber").value("1"))
                 .andExpect(jsonPath("$.pageable.pageSize").value("5"))
-                .andExpect(jsonPath("$.content").isArray());;
+                .andExpect(jsonPath("$.content").isArray());
     }
 
     @Test
@@ -108,7 +108,7 @@ class FleetManagementApiApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.pageable.pageNumber").value("1"))
                 .andExpect(jsonPath("$.pageable.pageSize").value("5"))
-                .andExpect(jsonPath("$.content").isArray());;
+                .andExpect(jsonPath("$.content").isArray());
     }
 
 }
